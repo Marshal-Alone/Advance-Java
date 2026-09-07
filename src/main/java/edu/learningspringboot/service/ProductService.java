@@ -25,6 +25,6 @@ public interface ProductService {
     public void deleteProductById(Long id);
 
     //update product price
-    public ProductResponseDto updateProductPrice(UpdateProductPrice updateProductPrice);
+    public ProductResponseDto updateProductPrice(Long id,UpdateProductPrice updateProductPrice);
 
 }

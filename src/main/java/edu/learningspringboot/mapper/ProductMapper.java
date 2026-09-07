@@ -26,7 +26,10 @@ public class ProductMapper {
         return mapper.map(product,ProductResponseDto.class);
     }
 
-
+    //update product entity using existing obj and productRequestDto
+    public void updateProduct(ProductRequestDto productRequestDto, Product product) {
+        mapper.map(productRequestDto, product);
+    }
 
 
 }
