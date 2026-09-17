@@ -10,6 +10,7 @@ import edu.learningspringboot.service.ProductService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,6 +46,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductResponseDto findByNameAndCategory(String name, String Category) {
+        Product product = productRepository.findByNameAndCategory(name, Category)
+                .orElseThrow(
+                        () ->
+                            new RuntimeException("Product not found for given id")
+
+                );
+
+        return productMapper.toDto(product);
+    }
+
+    @Override
     public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
         //convert ProductRequestDto--> entity
         Product product =  productMapper.toEntity(productRequestDto);
@@ -52,6 +65,29 @@ public class ProductServiceImpl implements ProductService {
         //save the entity and return the saved product back to user
         Product savedProduct = productRepository.save(product);
         return  productMapper.toDto(savedProduct);
+    }
+
+    @Override
+    public ArrayList<ProductResponseDto> addMultipleProduct(
+            List<ProductRequestDto> productRequestDto) {
+
+        ArrayList<ProductResponseDto> savedProducts = new ArrayList<>();
+
+        for (ProductRequestDto product : productRequestDto) {
+            // DTO → Entity
+            Product p = productMapper.toEntity(product);
+
+            // Save entity
+            Product savedP = productRepository.save(p);
+
+            // Entity → Response DTO
+            ProductResponseDto response =
+                    productMapper.toDto(savedP);
+
+            savedProducts.add(response);
+        }
+
+        return savedProducts;
     }
 
     @Override

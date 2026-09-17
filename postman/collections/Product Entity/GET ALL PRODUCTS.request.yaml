@@ -1,0 +1,16 @@
+$kind: http-request
+description: ""
+url: http://localhost:8080/api/v1/products
+method: GET
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"shoe\",\r
+
+    \    \"price\": 111,\r
+
+    \    \"category\": \"foot\"\r
+
+    }"
+order: 3503999180313793

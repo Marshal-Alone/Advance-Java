@@ -5,9 +5,11 @@ import edu.learningspringboot.dto.request.UpdateProductPrice;
 import edu.learningspringboot.dto.response.ProductResponseDto;
 import edu.learningspringboot.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,18 +19,30 @@ import java.util.List;
 public class Product_Controller {
     private final ProductService productService;
 
-
-
     //handler methods
     @GetMapping("/{id}")
     //http:localhost:8080/api/v1/products/:id
     public ProductResponseDto findProductById( @PathVariable Long id){
+
         return productService.findProductById(id);
+    }
+
+    @GetMapping("/name-and-category")
+    public ProductResponseDto findByNameAndCategory(
+            @RequestParam
+            @NotBlank(message = "name is required")
+            String name,
+
+            @RequestParam
+            @NotBlank(message = "category is required")
+            String Category){
+        return productService.findByNameAndCategory(name,Category);
     }
 
     @GetMapping
     //http:localhost:8080/api/v1/products
     public List<ProductResponseDto> findAllProducts(){
+
         return productService.findAllProducts();
     }
 
@@ -40,11 +54,25 @@ public class Product_Controller {
                 ProductRequestDto productRequestDto
             )
     {
+        System.out.println("Added product " + productRequestDto);
         System.out.println("Added product " + productRequestDto.getName());
         return productService.addProduct(productRequestDto);
     }
 
-    @PutMapping
+    @PostMapping("/addMulti")
+    public ArrayList <ProductResponseDto> addMultipleProduct
+            (
+                @RequestBody
+                @Valid //enable the validation
+                ArrayList<ProductRequestDto> productRequestDto
+            )
+    {
+        System.out.println("Added product " + productRequestDto);
+//        System.out.println("Added product " + productRequestDto.getName());
+        return productService.addMultipleProduct(productRequestDto);
+    }
+
+    @PutMapping("/{id}")
     public ProductResponseDto updateProduct
             (
                 @PathVariable
@@ -54,11 +82,11 @@ public class Product_Controller {
                 ProductRequestDto productRequestDto
             )
     {
-        System.out.println("Updated product " + productRequestDto.getName());
+        System.out.println("Updated product " + productRequestDto);
         return productService.updateProduct(id, productRequestDto);
     }
 
-    @PatchMapping
+    @PatchMapping("/{id}")
     public ProductResponseDto updateProductPrice
             (
                     @PathVariable Long id,
@@ -67,7 +95,6 @@ public class Product_Controller {
             )
     {
         System.out.println("Price updated to : "+updateProductPrice.getPrice());
-
         return productService.updateProductPrice(id, updateProductPrice);
     }
 
