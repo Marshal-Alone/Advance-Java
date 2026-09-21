@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class root {
     @GetMapping("")
-    public String root(){
+    public String hello(){
         return "<h1>Welcome !!!!</h1>";
     }
 
@@ -14,5 +14,10 @@ public class root {
     @GetMapping("/hi/{name}")
     public String hi(@PathVariable String name){
         return "Hello ----> "+ name;
+    }
+
+    @PostMapping("/post")
+    public String post(){
+        return "<i>This is a post request</i>";
     }
 }

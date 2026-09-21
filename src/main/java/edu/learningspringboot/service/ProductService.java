@@ -3,7 +3,6 @@ package edu.learningspringboot.service;
 import edu.learningspringboot.dto.request.ProductRequestDto;
 import edu.learningspringboot.dto.request.UpdateProductPrice;
 import edu.learningspringboot.dto.response.ProductResponseDto;
-import edu.learningspringboot.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;
